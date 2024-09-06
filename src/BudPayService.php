@@ -1,13 +1,16 @@
 <?php
+
 namespace BudPay;
 
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
+
 class BudPayService
 {
     protected $secretKey;
     protected $signatureHMACSHA512;
+
     public function __construct()
     {
         $this->secretKey = config('budpay.secret_key');
@@ -18,7 +21,6 @@ class BudPayService
     {
         $apiUrl = 'https://api.budpay.com/api/v2/transaction/initialize';
 
-        // Data to be sent in the API request
         $data = [
             'amount' => $amount,
             'callback' => $callback,
@@ -110,11 +112,20 @@ class BudPayService
 
     protected function makeRequest($method, $url, $data = [])
     {
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $this->secretKey,
-            'Encryption' => $this->signatureHMACSHA512,
-            'Content-Type' => 'application/json',
-        ])->$method($url, $data);
+        // Use conditionals instead of dynamic method invocation
+        if ($method === 'POST') {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->secretKey,
+                'Encryption' => $this->signatureHMACSHA512,
+                'Content-Type' => 'application/json',
+            ])->post($url, $data);
+        } else {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->secretKey,
+                'Encryption' => $this->signatureHMACSHA512,
+                'Content-Type' => 'application/json',
+            ])->get($url);
+        }
 
         if ($response->successful()) {
             return $response->json();
