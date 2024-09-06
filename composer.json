@@ -7,6 +7,8 @@
       "BudPay\\": "src/"
     }
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "extra": {
     "laravel": {
       "providers": [
@@ -20,3 +22,6 @@
     "illuminate/support": "^8.0|^9.0|^10.0"
   }
 }
+
+
+
