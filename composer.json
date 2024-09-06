@@ -1,0 +1,23 @@
+
+{
+  "name": "toluxsys/laravel-budpay",
+  "description": "Laravel package for interacting with BudPay APIs",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "BudPay\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "BudPay\\BudPayServiceProvider"
+      ]
+    }
+  },
+  "require": {
+    "php": "^7.3|^8.0",
+    "guzzlehttp/guzzle": "^7.0",
+    "illuminate/support": "^8.0|^9.0|^10.0"
+  }
+}
